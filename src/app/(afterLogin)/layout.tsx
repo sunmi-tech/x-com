@@ -3,6 +3,8 @@ import styles from "./layout.module.css";
 import Image from "next/image";
 import NavMenu from "./_component/NavMenu";
 import LogOutButton from "./_component/LogOutButton";
+import TrendSection from "./_component/TrendSection";
+import FollowRecommend from "./_component/FollowRecommend";
 
 export default function AfterLoginLayout({
   children,
@@ -35,6 +37,7 @@ export default function AfterLoginLayout({
         <div className={styles.rightSectionInner}>
           <main className={styles.main}>{children}</main>
           <section className={styles.rightSection}>
+            <div style={{ marginBottom: "60px", width: "inherit" }}>
             <form className={styles.search}>
               <svg width={20} viewBox="0 0 24 24" aria-hidden="true">
                 <g>
@@ -43,6 +46,14 @@ export default function AfterLoginLayout({
               </svg>
               <input type="search" />
             </form>
+            </div>
+            <TrendSection />
+            <div className={styles.followRecommend}>
+              <h3>팔로우 추천</h3>
+              <FollowRecommend />
+              <FollowRecommend />
+              <FollowRecommend />
+            </div>
           </section>
         </div>
       </div>
