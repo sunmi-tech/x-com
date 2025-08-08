@@ -1,7 +1,43 @@
-export default function Search() {
+import style from "./search.module.css";
+import Post from "@/app/(afterLogin)/_component/Post";
+import Tab from "./_component/Tab";
+import SearchForm from "@/app/(afterLogin)/_component/SearchForm";
+import BackButton from "@/app/(afterLogin)/_component/BackButton";
+
+type Props = {
+    searchParams : Promise<{ q?: string, f?: string, pf?: string }>
+}
+
+export default async function Search( {searchParams} : Props) {
+    const q = await searchParams;
+
     return (
-        <div>
-            <h1>Search</h1>
+        <main className={style.main}>
+        <div className={style.searchTop}>
+          <div className={style.searchZone}>
+            <div className={style.buttonZone}>
+              <BackButton/>
+            </div>
+            <div className={style.formZone}>
+              <SearchForm q={q} />
+            </div>
+          </div>
+          <Tab/>
         </div>
+        <div className={style.list}>
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          <Post />
+          {/*<SearchResult searchParams={searchParams} />*/}
+        </div>
+      </main>
     )
 }

@@ -1,7 +1,10 @@
 import styles from '@/app/(afterLogin)/_component/search.module.css'
 
+type Props = {
+  q? : string
+}
 
-export default function SearchForm() {
+export default function SearchForm( { q } : Props) {
     return (
         <div style={{ marginBottom: "60px", width: "inherit" }}>
         <form className={styles.search}>
