@@ -13,7 +13,10 @@ type Props = {
         },
         content : string,
         createdAt : Date,
-        Images : any[],
+        Images : {
+            imageId : number,
+            link : string
+        }[],
         postId : number
     }
 }

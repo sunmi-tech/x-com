@@ -5,11 +5,16 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/ko'
 import ActionButtons from './ActionButtons'
 import PostArticle from './PostArticle'
+import PostImages from './PostImages'
 
 dayjs.extend(relativeTime)
 dayjs.locale('ko')
 
-export default function Post() {
+type Props = {
+  noImage?: boolean;
+}
+
+export default function Post({ noImage }: Props) {
     const target = {
         User : {
             id : 'elonmusk',
@@ -21,6 +26,13 @@ export default function Post() {
         Images : [],
         postId : 1
     }
+
+    if (Math.random() > 0.5 && !noImage) {
+      target.Images.push (
+        { imageId: 1, link: `https://picsum.photos/400/300` }
+      )
+    }
+
   return (
     <PostArticle post={target}>
       <div className={style.postWrapper}>
@@ -43,7 +55,9 @@ export default function Post() {
             </span>
           </div>
           <div>{target.content}</div>
-          <div className={style.postImageSection}></div>
+          <div className={style.postImageSection}>
+            <PostImages post={target} />
+          </div>
           <ActionButtons />
         </div>
       </div>
