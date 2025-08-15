@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
 
 export default async function onSubmit(
   prevState: { message: string | null },
@@ -36,4 +37,10 @@ export default async function onSubmit(
 
   console.log(response.json());
   redirect("/home");
+  await signIn("credentials", {
+    // ✅ 프로바이더에서 정의한 키와 동일하게 보낸다
+    email: formData.get("id"),
+    password: formData.get("password"),
+    redirect: false,
+  });
 }
