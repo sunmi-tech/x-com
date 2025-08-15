@@ -6,32 +6,24 @@ import 'dayjs/locale/ko'
 import ActionButtons from './ActionButtons'
 import PostArticle from './PostArticle'
 import PostImages from './PostImages'
+import { Post as IPost } from '@/model/Post'
 
 dayjs.extend(relativeTime)
 dayjs.locale('ko')
 
 type Props = {
   noImage?: boolean;
+  post: IPost;
 }
 
-export default function Post({ noImage }: Props) {
-    const target = {
-        User : {
-            id : 'elonmusk',
-            nickname : 'Elon Musk',
-            image : './yRsRRjGO.jpg'
-        },
-        content : "클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ",
-        createdAt : new Date(),
-        Images : [],
-        postId : 1
-    }
+export default function Post({ noImage, post }: Props) {
+  const target = post;
 
-    if (Math.random() > 0.5 && !noImage) {
-      target.Images.push (
-        { imageId: 1, link: `https://picsum.photos/400/300` }
-      )
-    }
+    // if (Math.random() > 0.5 && !noImage) {
+    //   target.Images.push (
+    //     { imageId: 1, link: `https://picsum.photos/400/300` }
+    //   )
+    // }
 
   return (
     <PostArticle post={target}>
