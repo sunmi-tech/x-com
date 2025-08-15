@@ -7,6 +7,7 @@ import TrendSection from "./_component/TrendSection";
 import FollowRecommend from "./_component/FollowRecommend";
 import Search from "./_component/Search";
 import { auth } from "@/auth";
+import RQProvider from "./_component/RQProvider";
 
 export default async function AfterLoginLayout({
   children,
@@ -52,6 +53,7 @@ export default async function AfterLoginLayout({
           </div>
         </section>
       </header>
+      <RQProvider>
       <div className={styles.rightSectionWrapper}>
         <div className={styles.rightSectionInner}>
           <main className={styles.main}>{children}</main>
@@ -68,6 +70,7 @@ export default async function AfterLoginLayout({
         </div>
       </div>
       {modal}
+      </RQProvider>
     </div>
   );
 }

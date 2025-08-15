@@ -33,7 +33,7 @@ export default function SignupModal() {
       <div className={style.modalBackground}>
         <div className={style.modal}>
           <div className={style.modalHeader}>
-            <BackButton />
+            <BackButton />   
             <div>계정을 생성하세요.</div>
           </div>
           <form action={formAction}>
