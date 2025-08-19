@@ -4,7 +4,7 @@ import Image from "next/image";
 import NavMenu from "./_component/NavMenu";
 import LogOutButton from "./_component/LogOutButton";
 import TrendSection from "./_component/TrendSection";
-import FollowRecommend from "./_component/FollowRecommend";
+import FollowRecommendSection from "./_component/FollowRecommendSection";
 import Search from "./_component/Search";
 import { auth } from "@/auth";
 import RQProvider from "./_component/RQProvider";
@@ -47,7 +47,7 @@ export default async function AfterLoginLayout({
                 </svg>
             </Link>
           </nav>
-          <LogOutButton />
+          <LogOutButton me={session} />
               </>
             }
           </div>
@@ -62,9 +62,7 @@ export default async function AfterLoginLayout({
             <TrendSection />
             <div className={styles.followRecommend}>
               <h3>팔로우 추천</h3>
-              <FollowRecommend />
-              <FollowRecommend />
-              <FollowRecommend />
+              <FollowRecommendSection />
             </div>
           </section>
         </div>

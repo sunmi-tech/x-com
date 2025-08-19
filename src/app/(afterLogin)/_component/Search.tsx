@@ -3,12 +3,24 @@
 import styles from './search.module.css'
 import { usePathname } from 'next/navigation';
 import SearchForm from './SearchForm';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Search() {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const router = useRouter();
 
-    const onChangeAll = () => {};
-    const onChangeFollow = () => {};
+    const onChangeFollow = () => {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set('pf', 'on');
+      router.replace(`/search?${newSearchParams.toString()}`);
+    }
+    const onChangeAll = () => {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete('pf');
+      router.replace(`/search?${newSearchParams.toString()}`);
+    }
 
     if (pathname === "/explore") {
         return null;

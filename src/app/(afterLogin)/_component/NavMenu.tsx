@@ -3,15 +3,11 @@
 import { useSelectedLayoutSegment } from "next/navigation";
 import Link from "next/link";
 import styles from './navMenu.module.css'
+import { useSession } from "next-auth/react";
 
 export default function NavMenu() {
   const segment = useSelectedLayoutSegment();
-  // console.log(segement); = home compose ...
-  // useSelectedLayoutSegments = [compose, tweet, ...]
-    const me = {
-        // mock data
-        id : 'sunmi',
-    }
+  const {data: me} = useSession();
   return (
     <>
       <li>
@@ -119,11 +115,11 @@ export default function NavMenu() {
           </div>
         </Link>
       </li>
-      {me?.id && (
+      {me?.user?.email && (
         <li>
-          <Link href={`/${me?.id}`}>
+          <Link href={`/${me?.user?.email}`}>
             <div className={styles.navPill}>
-              {segment === me.id ? (
+              {segment === me?.user?.email ? (
                 <>
                   <svg
                     width={26}

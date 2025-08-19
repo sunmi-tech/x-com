@@ -1,46 +1,55 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { signIn } from "@/auth";
+import {redirect} from "next/navigation";
+import {signIn} from "@/auth";
 
-export default async function onSubmit(
-  prevState: { message: string | null },
-  formData: FormData
-) {
-  if (!formData.get("id")) {
-    return { message: "no_id" };
+export default async (prevState: { message: string | null }, formData: FormData) => {
+  if (!formData.get('id') || !(formData.get('id') as string)?.trim()) {
+    return {message: 'no_id'};
+  }
+  if (!formData.get('name') || !(formData.get('name') as string)?.trim()) {
+    return {message: 'no_name'};
+  }
+  if (!formData.get('password') || !(formData.get('password') as string)?.trim()) {
+    return {message: 'no_password'};
+  }
+  if (!formData.get('image')) {
+    return {message: 'no_image'};
+  }
+  formData.set('nickname', formData.get('name') as string);
+  let shouldRedirect = false;
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
+      method: 'post',
+      body: formData,
+      credentials: 'include',
+    })
+    console.log(response.status);
+    if (response.status === 403) {
+      return {message: 'user_exists'};
+    } else if (response.status === 400) {
+      return {
+        message: (await response.json()).data[0],
+        id: formData.get('id'),
+        nickname: formData.get('nickname'),
+        password: formData.get('password'),
+        image: formData.get('image')
+      };
+    }
+    console.log(await response.json())
+    shouldRedirect = true;
+    await signIn("credentials", {
+      username: formData.get('id'),
+      password: formData.get('password'),
+      redirect: false,
+    })
+  } catch (err) {
+    console.error(err);
+    return {message: null};
   }
 
-  if (!formData.get("name")) {
-    return { message: "no_name" };
+  if (shouldRedirect) {
+    redirect('/home'); // try/catch문 안에서 X
   }
-
-  if (!formData.get("password")) {
-    return { message: "no_password" };
-  }
-
-  if (!formData.get("image")) {
-    return { message: "no_image" };
-  }
-
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${baseUrl}/api/users`, {
-    method: "post",
-    body: formData,
-    credentials: "include",
-  });
-  console.log(response.status);
-
-  if (response.status === 403) {
-    return { message: "user_exists" };
-  }
-
-  console.log(response.json());
-  redirect("/home");
-  await signIn("credentials", {
-    // ✅ 프로바이더에서 정의한 키와 동일하게 보낸다
-    email: formData.get("id"),
-    password: formData.get("password"),
-    redirect: false,
-  });
+  return {message: null}
 }

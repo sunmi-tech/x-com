@@ -6,13 +6,16 @@ import { QueryClient } from "@tanstack/react-query";
 import { dehydrate } from "@tanstack/react-query";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getPostRecommends } from "./_lib/getPostRecommends";
-import PostRecommends from "./_component/PostRecommends";
+import TabDicider from "./_component/TabDicider";
+import { auth } from "@/auth";
 
 export default async function Home() {
+  const session = await auth();
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
+  await queryClient.prefetchInfiniteQuery({
     queryKey: ['posts', 'recommends'],
-    queryFn: getPostRecommends
+    queryFn: getPostRecommends,
+    initialPageParam: 0,//cursor 값
   })
   const dehydratedState = dehydrate(queryClient);
 
@@ -21,8 +24,8 @@ export default async function Home() {
       <HydrationBoundary state={dehydratedState}>
       <TabProvider>
         <Tab />
-        <PostForm />
-        <PostRecommends />
+        <PostForm me={session} />
+        <TabDicider />
       </TabProvider>
       </HydrationBoundary>
     </main>
